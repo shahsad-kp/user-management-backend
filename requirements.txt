@@ -5,6 +5,6 @@ setuptools==67.8.0
 sqlparse==0.4.4
 tzdata==2023.3
 wheel==0.40.0
-rest_framework_simplejwt
+djangorestframework-jwt
 djangorestframework
 Pillow
