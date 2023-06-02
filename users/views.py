@@ -21,7 +21,6 @@ class UserRegistrationView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         if response.status_code == 201:
-            print(request.data)
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid()
             user = User.objects.get(username=serializer.data['username'])
@@ -61,8 +60,6 @@ class UserCreateView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         profile_picture = request.FILES.get('profilePicture', None)
-        print(request.data)
-        print(profile_picture)
         response = super().post(request, *args, **kwargs)
 
         if response.status_code == 201:
@@ -81,6 +78,19 @@ class UserUpdateSelfView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
+    def put(self, request, *args, **kwargs):
+        profile_picture = request.FILES.get('profilePicture', None)
+        response = super().put(request, *args, **kwargs)
+        if response.status_code == 200:
+            user = User.objects.get(username=request.data['username'])
+
+            if profile_picture:
+                file_name = profile_picture.name
+                file_path = default_storage.save(file_name, ContentFile(profile_picture.read()))
+                user.profile_picture = file_path
+                user.save()
+        return response
 
     def get_object(self):
         return self.request.user
