@@ -8,6 +8,6 @@ class User(AbstractUser):
     name = models.CharField(max_length=110, )
     username = models.CharField(max_length=110, unique=True)
     password = models.CharField(max_length=110)
-    profile_picture = models.ImageField(upload_to='profile-pictures/', default='profile-pictures/default.png')
+    profile_picture = models.ImageField(upload_to='profile-pictures/', default='profile-pictures/default.jpg')
 
     USERNAME_FIELD = 'username'

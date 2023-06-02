@@ -11,8 +11,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'name', 'profilePicture', 'isAdmin']
         extra_kwargs = {
-            'username': {'read_only': True},
-            'name': {'read_only': True},
         }
 
     def get_profilePicture(self, user):
@@ -39,6 +37,5 @@ class UserSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data.pop('password', None)
-        data['profilePicture'] = data.pop('profilePicture', None)
         return data
 
